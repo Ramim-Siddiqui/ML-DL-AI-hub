@@ -53,3 +53,37 @@ Clone the repository and run:
 
 ```bash
 python predictor.py
+Follow the interactive prompts:
+
+Enter dataset path (.csv or .xlsx).
+
+Select target column.
+
+(Optional) Specify date column.
+
+Choose prediction type: daily or monthly.
+
+Get predictions saved to CSV files.
+```
+### 📂 Example Output
+```bash
+R² Scores → r2scores.csv
+
+Daily Predictions → predictions.csv
+
+Monthly Predictions (averaged by month) → monthly_predictions.csv
+```
+### 📊 Sample Workflow
+```bash
+Please enter the path for the dataset (CSV or XLSX format): dataset.csv
+Please enter the column name you want to predict: sales
+Please enter the column name that contains dates: date
+Do you want to drop any more columns? (yes/no): no
+How would you like to do predictions? (daily/monthly): monthly
+```
+### 👨‍💻 Author
+Developed by Ramim Siddiqui
+BSCS (AI) Graduate | Passionate about AI & Web Development
+
+### 📜 License
+This project is open-source under the MIT License.
