@@ -1,31 +1,35 @@
-# Google Gemini Access via Langchain README
+# Google Gemini through LangChain
 
-Welcome to the README for the codebase enabling access to Google Gemini via Langchain. This document serves as a guide to understand, set up, and utilize the code effectively.
+A Colab notebook (`Gemini.ipynb`) that walks through using Google's Gemini large language models from Python: first with the official `google-generativeai` SDK, then through LangChain's `langchain-google-genai` integration.
 
-## Overview
-This code facilitates access to Google Gemini, an advertising platform, through Langchain, a language translation API. By leveraging Langchain's capabilities, users can interact with Google Gemini's API in their preferred language, enhancing accessibility and usability.
+## What the notebook covers
 
-## Key Components
+1. **Setup** - installs `langchain`, `langchain-core`, `langchain-experimental`, `langchain-google-genai` and `google-generativeai`, configures `GOOGLE_API_KEY` and lists the models available to the key.
+2. **Direct SDK call** - `genai.GenerativeModel('gemini-pro').generate_content(prompt)` rendered as Markdown.
+3. **LangChain chat model** - `ChatGoogleGenerativeAI` with `invoke(...)` for a single answer and `stream(...)` for token streaming.
+4. **LCEL chain** - `ChatPromptTemplate | model | StrOutputParser` to run a templated prompt (`"Tell me short facts about {topic}"`).
+5. **PAL chain** - `PALChain.from_math_prompt` from `langchain_experimental` solves arithmetic word problems by having the model write and execute Python.
+6. **Multimodal** - `gemini-pro-vision` describes an image fetched from a URL, passed as a `HumanMessage` with a text part and an `image_url` part.
 
-Google Gemini API Integration: The code integrates with Google Gemini's API to access various advertising functionalities, such as campaign management, reporting, and targeting.
+## Requirements
 
-Langchain Integration: Utilizing Langchain's API, the code translates user input and responses between multiple languages, enabling seamless communication with Google Gemini in diverse linguistic contexts.
+- Python 3.9+
+- A Google AI Studio API key: https://aistudio.google.com/app/apikey
 
-Authentication and Authorization: The code implements secure authentication mechanisms to ensure that only authorized users can access Google Gemini's API functionalities.
+```bash
+pip install langchain langchain-core langchain-experimental langchain-google-genai google-generativeai requests
+```
 
+Set the key as an environment variable rather than pasting it into the notebook:
 
-## Getting Started
+```bash
+set GOOGLE_API_KEY=...        # Windows (PowerShell: $env:GOOGLE_API_KEY="...")
+export GOOGLE_API_KEY=...     # Linux / macOS
+```
 
-To set up and use the code for accessing Google Gemini via Langchain, follow these steps:
+Then open `Gemini.ipynb` in Jupyter or Colab and run the cells top to bottom.
 
-Installation: Clone the repository to your local machine and install any dependencies specified in the project's requirements.txt or package.json file.
+## Notes
 
-Configuration: Update the configuration files with your Google Gemini API credentials, Langchain API key, and any other relevant settings.
-
-Authentication: Implement the necessary authentication process as per Google Gemini's authentication requirements, such as OAuth2 authentication.
-
-Testing: Test the code with sample requests to ensure that it can successfully communicate with Google Gemini via Langchain and handle responses appropriately.
-
-Integration: Integrate the code into your existing application or infrastructure where access to Google Gemini's advertising functionalities is required.
-
-Documentation: Provide documentation and user guides to assist users in understanding how to utilize the code effectively, including sample requests and responses.
+- The model names used in the notebook (`gemini-pro`, `gemini-pro-vision`) have since been retired by Google. Substitute a currently supported model from https://ai.google.dev/gemini-api/docs/models in the `GenerativeModel(...)` and `ChatGoogleGenerativeAI(model=...)` calls.
+- The first cell pins `google-generativeai==0.3.1` and `google-ai-generativelanguage==0.4.0` (early-2024 versions). With current LangChain releases the imports `langchain.prompts` and `langchain.schema.output_parser` should be replaced by `langchain_core.prompts` and `langchain_core.output_parsers`.

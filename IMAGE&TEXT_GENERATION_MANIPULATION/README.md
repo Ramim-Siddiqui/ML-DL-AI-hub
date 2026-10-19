@@ -1,78 +1,47 @@
-# 🖼️ Image & Text Generation / Manipulation
+# Image & Text Generation / Manipulation
 
-This project demonstrates how to work with **AI models for image generation and text humanization/paraphrasing**, using both **local models** and **remote APIs**.  
+A Colab notebook (`Image & Text Generation_Manipulation.ipynb`) collecting small, independent recipes for generating and manipulating images and text with both hosted APIs and locally-run models.
 
----
+## What the notebook covers
 
-## 🚀 Features
+### Image generation (StarryAI API)
+- Submits a text prompt to the StarryAI REST endpoint (`POST /creations/`, model `lyra`).
+- Polls the creation until it is ready, then prints the generated image URL.
 
-### 🎨 Image Generation
-- Run **Stable Diffusion locally** with GPU acceleration (`diffusers`).  
-- Generate AI images via the **StarryAI REST API**.  
-- Poll StarryAI’s API until the image is ready, then fetch the image URL.  
+### Background removal (local)
+- Uses [`rembg`](https://github.com/danielgatis/rembg) (a U2-Net model run through `onnxruntime`) to strip the background from an image file and save a transparent PNG.
 
-### ✍️ Text Generation
-- Use **Hugging Face Inference API** for paraphrasing and chat completions.  
-- Run a **local Transformer model** (`humarin/chatgpt_paraphraser_on_T5_base`) for offline text humanization.  
-- Supports **multiple paraphrase variations**.  
+### Text rephrasing (Sapling API)
+- Calls the Sapling `rephrase` endpoint with the `informal_to_formal` mapping on a single sentence.
+- Batch version: reads a `.docx` with `docx2txt`, rephrases it paragraph by paragraph and writes a new document with `python-docx`.
 
----
+### AI text humanizer (local)
+- Loads `humarin/chatgpt_paraphraser_on_T5_base` with Hugging Face `transformers` and generates several paraphrases per input with beam search (`num_beams=5`, `no_repeat_ngram_size=2`). Runs on GPU if available, otherwise CPU.
 
-## ⚙️ Installation
+## Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/your-repo.git
-   cd your-repo
-Install dependencies:
+```bash
+pip install requests rembg onnxruntime pillow docx2txt python-docx transformers sentencepiece torch
+```
 
-PyTorch (with CUDA if available).
+For GPU paraphrasing install the CUDA build of PyTorch from https://pytorch.org/get-started/locally/.
 
-Required Python libraries:
+## API keys
 
-pip install torch diffusers transformers sentencepiece huggingface_hub requests
+- **StarryAI** - from https://starryai.com (requests consume credits).
+- **Sapling** - from https://sapling.ai.
 
-### 🔑 API Keys
+Both are read from variables at the top of the respective cells; set them there or load them from environment variables.
 
-Some parts of the notebook require API keys:
+## Usage
 
-StarryAI API Key → obtained from the StarryAI platform.
+Open the notebook in Jupyter or Colab and run the section you need; the sections are independent of each other. The background-removal cell mounts Google Drive for its input and output paths; change `input_path` / `output_path` to local files when running outside Colab.
 
-Hugging Face Token → only needed for private/gated models.
+## Project structure
 
-### 📌 Usage
+- `Image & Text Generation_Manipulation.ipynb` - the notebook with all recipes.
+- `README.md` - this file.
 
-Open and run the Jupyter Notebook:
+## Author
 
-Stable Diffusion (Local)
-
-Generate AI images on your machine using GPU acceleration.
-
-StarryAI API
-
-Send prompts to StarryAI, poll until the image is ready, and fetch the generated image URL.
-
-Hugging Face API (Remote)
-
-Use Hugging Face-hosted models for chat completions and paraphrasing.
-
-Hugging Face Transformers (Local)
-
-Run a local paraphraser model (humarin/chatgpt_paraphraser_on_T5_base) to humanize AI text without relying on APIs.
-
-### 📂 Project Structure
-
-Image & Text Generation_Manipulation.ipynb → Main Jupyter Notebook with examples.
-
-README.md → Documentation.
-
-### ✅ Notes
-
-⚠️ StarryAI requests consume credits, so use them sparingly.
-
-🔑 Hugging Face token is optional, unless using private or gated models.
-
-💾 Local models are cached in your system for offline use.
-
-👨‍💻 Author
 Developed by Ramim Siddiqui

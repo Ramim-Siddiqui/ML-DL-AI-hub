@@ -1,0 +1,57 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyc
+*.egg-info/
+build/
+dist/
+
+# ---- Virtual environments ----
+.venv/
+venv/
+env/
+
+# ---- Jupyter ----
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# ---- Secrets / local config ----
+.env
+.env.*
+*.key
+
+# ---- Editors / OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Large data and model artefacts (do not re-add to git) ----
+# Files already tracked (e.g. AUDIO_DETECTION_SYSTEM-main/dataset.rar) stay tracked;
+# these patterns only stop new ones from being committed.
+*.rar
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.joblib
+*.keras
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+*.npy
+*.npz
+
+# Kaggle "Fake News" train set (94 MiB) - download from https://www.kaggle.com/c/fake-news/data
+FAKE_NEWS_DETECTION_SYSTEM-main/Fake_News_Detection_System/train.csv
+
+# ---- Outputs produced by Dynamic_Model/dynamic_model.py ----
+r2scores.csv
+predictions.csv
+monthly_predictions.csv

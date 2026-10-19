@@ -49,22 +49,22 @@ Supports **daily & monthly predictions** with customizable inputs, and outputs r
 ---
 
 ## ▶️ Usage
-Clone the repository and run:
+Install the dependencies and run the script:
 
 ```bash
-python predictor.py
+pip install pandas numpy scikit-learn xgboost statsmodels tensorflow openpyxl
+python dynamic_model.py
+```
+
 Follow the interactive prompts:
 
-Enter dataset path (.csv or .xlsx).
+1. Enter the dataset path (`.csv` or `.xlsx`).
+2. Select the target column.
+3. (Optional) Specify the date column.
+4. (Optional) Drop columns you do not want as features.
+5. Choose the prediction type: `daily` or `monthly`.
+6. Predictions are saved to CSV files in the working directory.
 
-Select target column.
-
-(Optional) Specify date column.
-
-Choose prediction type: daily or monthly.
-
-Get predictions saved to CSV files.
-```
 ### 📂 Example Output
 ```bash
 R² Scores → r2scores.csv
